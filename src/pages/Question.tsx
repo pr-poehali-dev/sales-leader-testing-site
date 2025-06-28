@@ -12,7 +12,7 @@ const Question = () => {
   const questionId = parseInt(id || "1");
   const question = questions.find((q) => q.id === questionId);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [customAnswer, setCustomAnswer] = useState<string>("");
+  const [customAnswer, setLocalCustomAnswer] = useState<string>("");
 
   const { setAnswer, setCustomAnswer, nextQuestion, answers, customAnswers } =
     useTestStore();
@@ -97,7 +97,7 @@ const Question = () => {
               </label>
               <Textarea
                 value={customAnswer}
-                onChange={(e) => setCustomAnswer(e.target.value)}
+                onChange={(e) => setLocalCustomAnswer(e.target.value)}
                 placeholder="Или напишите свой ответ..."
                 className="w-full resize-none"
                 rows={3}
