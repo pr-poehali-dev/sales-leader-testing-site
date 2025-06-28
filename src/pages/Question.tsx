@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import ProgressBar from "@/components/ProgressBar";
 import { questions } from "@/lib/questions";
 import { useTestStore } from "@/lib/store";
+import { Textarea } from "@/components/ui/textarea";
 
 const Question = () => {
   const { id } = useParams();
@@ -11,8 +12,10 @@ const Question = () => {
   const questionId = parseInt(id || "1");
   const question = questions.find((q) => q.id === questionId);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [customAnswer, setCustomAnswer] = useState<string>("");
 
-  const { setAnswer, nextQuestion, answers } = useTestStore();
+  const { setAnswer, setCustomAnswer, nextQuestion, answers, customAnswers } =
+    useTestStore();
 
   if (!question) {
     navigate("/");
@@ -20,11 +23,17 @@ const Question = () => {
   }
 
   const existingAnswer = answers[questionId];
+  const existingCustomAnswer = customAnswers[questionId] || "";
   const currentAnswer = selectedAnswer !== null ? selectedAnswer : null;
 
   const handleNext = () => {
     if (currentAnswer !== null && currentAnswer !== undefined) {
       setAnswer(questionId, currentAnswer);
+
+      // Сохранить кастомный ответ для первого вопроса
+      if (questionId === 1 && customAnswer.trim()) {
+        setCustomAnswer(questionId, customAnswer.trim());
+      }
 
       if (questionId < 5) {
         navigate(`/question/${questionId + 1}`);
@@ -80,6 +89,21 @@ const Question = () => {
               </label>
             ))}
           </div>
+
+          {questionId === 1 && (
+            <div className="mb-8">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Или напишите свой ответ:
+              </label>
+              <Textarea
+                value={customAnswer}
+                onChange={(e) => setCustomAnswer(e.target.value)}
+                placeholder="Или напишите свой ответ..."
+                className="w-full resize-none"
+                rows={3}
+              />
+            </div>
+          )}
 
           <div className="flex justify-between items-center">
             <Button

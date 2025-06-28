@@ -3,9 +3,11 @@ import { create } from "zustand";
 interface TestState {
   currentQuestion: number;
   answers: Record<number, number>;
+  customAnswers: Record<number, string>;
   totalScore: number;
   isCompleted: boolean;
   setAnswer: (questionId: number, answerIndex: number) => void;
+  setCustomAnswer: (questionId: number, customText: string) => void;
   nextQuestion: () => void;
   resetTest: () => void;
   calculateScore: () => number;
@@ -14,12 +16,19 @@ interface TestState {
 export const useTestStore = create<TestState>((set, get) => ({
   currentQuestion: 1,
   answers: {},
+  customAnswers: {},
   totalScore: 0,
   isCompleted: false,
 
   setAnswer: (questionId: number, answerIndex: number) => {
     set((state) => ({
       answers: { ...state.answers, [questionId]: answerIndex },
+    }));
+  },
+
+  setCustomAnswer: (questionId: number, customText: string) => {
+    set((state) => ({
+      customAnswers: { ...state.customAnswers, [questionId]: customText },
     }));
   },
 
@@ -37,6 +46,7 @@ export const useTestStore = create<TestState>((set, get) => ({
     set({
       currentQuestion: 1,
       answers: {},
+      customAnswers: {},
       totalScore: 0,
       isCompleted: false,
     });
