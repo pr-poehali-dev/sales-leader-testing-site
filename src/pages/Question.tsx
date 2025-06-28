@@ -20,8 +20,7 @@ const Question = () => {
   }
 
   const existingAnswer = answers[questionId];
-  const currentAnswer =
-    selectedAnswer !== null ? selectedAnswer : existingAnswer;
+  const currentAnswer = selectedAnswer !== null ? selectedAnswer : null;
 
   const handleNext = () => {
     if (currentAnswer !== null && currentAnswer !== undefined) {
