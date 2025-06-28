@@ -61,7 +61,7 @@ const Question = () => {
                 className={`block p-4 border-2 rounded-lg cursor-pointer transition-all ${
                   currentAnswer === index
                     ? "border-blue-600 bg-blue-50"
-                    : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                    : "border-gray-200"
                 }`}
               >
                 <input
