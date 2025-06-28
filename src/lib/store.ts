@@ -53,7 +53,7 @@ export const useTestStore = create<TestState>((set, get) => ({
   },
 
   calculateScore: () => {
-    const { answers } = get();
+    const { answers, customAnswers } = get();
     let score = 0;
 
     // Правильные ответы (индексы): [1, 1, 2, 2, 2]
@@ -61,7 +61,19 @@ export const useTestStore = create<TestState>((set, get) => ({
 
     for (let i = 1; i <= 5; i++) {
       if (answers[i] === correctAnswers[i - 1]) {
-        score += 7;
+        if (i === 1) {
+          // Для первого вопроса: проверяем кастомный ответ
+          if (
+            customAnswers[1] === "Увеличение доли рынка и рост маржинальности"
+          ) {
+            score += 7;
+          } else {
+            score += 3;
+          }
+        } else {
+          // Для остальных вопросов: 7 баллов
+          score += 7;
+        }
       }
     }
 
